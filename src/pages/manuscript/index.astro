@@ -1,0 +1,78 @@
+---
+import GenericPage from "../../layouts/GenericPage.astro";
+import { getCollection } from "astro:content";
+import { Picture } from "astro:assets";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+const posts = (await getCollection("manuscript")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<GenericPage title="the melonscript" description="What is bro yapping about?">
+  <main>
+    <div
+      class="bg-elevation-1 rounded-xl mx-auto mb-5 w-full sm:w-8/12 text-center hovered"
+    >
+      <a href={`/manuscript/${posts[0].slug}/`} class="block pb-3 no-underline">
+        <div class="p-2 lg:p-3">
+          <Picture
+            class="mb-2 rounded-xl"
+            width={1020}
+            height={510}
+            src={posts[0].data.heroImage as string}
+            alt=""
+            formats={[`avif`, `webp`]}
+            fallbackFormat="jpg"
+          />
+        </div>
+        <h4 class="m-0 px-2 text-2xl sm:text-3xl lg:text-4xl">
+          {posts[0].data.title}
+        </h4>
+
+        <p class="">
+          <FormattedDate date={posts[0].data.pubDate} />
+        </p>
+
+        <p class="m-0 px-2 text-inv-elevation-2">
+          {posts[0].data.description}
+        </p>
+      </a>
+    </div>
+
+    <h2 class="text-center m-2">Previously on the melonscript:</h2>
+
+    <section>
+      <ul class="grid sm:grid-cols-2 gap-2 m-0 p-0 md:gap-8">
+        {
+          posts.slice(1).map((post) => (
+            <li class="bg-elevation-1 rounded-xl text-center hovered">
+              <a
+                href={`/manuscript/${post.slug}/`}
+                class="block pb-3 no-underline"
+              >
+                <div class="p-2">
+                  <Picture
+                    class="mb-2 rounded-xl"
+                    width={720}
+                    height={360}
+                    src={post.data.heroImage as string}
+                    alt=""
+                    formats={[`avif`, `webp`]}
+                    fallbackFormat="jpg"
+                  />
+                </div>
+                <h4 class="m-0 pt-2 px-2 line leading-none">
+                  {post.data.title}
+                </h4>
+                <p class="m-0">
+                  <FormattedDate date={post.data.pubDate} />
+                </p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</GenericPage>

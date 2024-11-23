@@ -1,0 +1,218 @@
+---
+title: "Best Linux Distro 2024"
+description: "Best Linux distro for gaming; Best Linux distro for office; Best Linux distro for work; Best Linux distro for daily usage; Best Linux distro."
+pubDate: "Oct 12 2024"
+heroImage: "/manuscript/best-linux-distro.jpg"
+---
+
+import { Picture } from "astro:assets";
+import silverblue from "../../images/manuscript/best-linux-distro-2024/silverblue.png";
+import only_blurry from "../../images/manuscript/best-linux-distro-2024/only-blurry.png";
+import flathub_perms from "../../images/manuscript/best-linux-distro-2024/flathub-perms.png";
+import tim_silley from "../../images/manuscript/best-linux-distro-2024/tim-silley.png";
+
+### 1 - Fedora Silverblue
+
+Fedora Silverblue is a high-quality and easy-to-use desktop that is built on the latest open-source technology, and which receives regular updates. Recommended by the Linux company!
+
+<Picture
+    alt="Screenshot from the Fedora Silverblue homepage."
+    src={silverblue}
+    formats={[`avif`, `webp`]}
+    fallbackFormat="jpg"
+/>
+<br/>
+
+#### System Requirements
+
+- RAM: Minimum: 2GB, Recommended: 4GB
+- Storage: At least 15GB
+- CPU: Optional
+
+<br/>
+***
+<br/>
+
+## Get Real
+
+Ha-Ha, you thought this will be one of those sloppy slop articles, didn't you? You didn't? Oh...
+
+In that case, what is this page about? Actually, it's about my "The Linux Experiment"! About a month ago I decided to try out the funny penguin operating system. I was tired of being frustrated by Windows and wanted to be frustrated by something new.
+
+This is my first experience of Linux on bare metal after years of exposure via YouTube and indirect interaction via Android. Based on the opinions online, this will either be a perfect experience or everything will crash and burn. No in-between.
+
+## Picking the Distro
+
+How do you choose a distro anyway? Trial and error, it seems!
+
+It may be extremely tempting to google "best distro" and pick what they recommend you - don't do that. Those lists are SEO slop. Reddit? It's a bunch of unfiltered opinions, and you'll be recommended Arch without an installer or... Manjaro. DistroWatch? It's a good distro directory, but nothing more.
+
+Anyway, what I really wanted to try is an ✨immutable✨ distro. The concept of never having a broken system is **extremely** appealing to me. This makes it a bit harder to choose, as not that many ✨immutable✨ distros are out there.
+
+Choosing an unpopular distribution is a cause for concern. It can be dropped at any time, and you could be without security patches for months. This is why it is really important to choose a distribution with an established community and organization behind it.
+
+What else? I also like to see newer packages available in the repos compared to something like RHEL and Debian. The DE is also important. I wanted to try GNOME, as it is the only one I know that doesn't look aged 20 years. (I'll get to that one day...)
+
+So, ✨immutable✨, popular, properly supported, GNOME, and not too restrictive? This leaves us with just one choice: Fedora Silverblue.
+
+## Smooth Sailing
+
+> So far...
+
+My first impressions were quite good!
+
+After years of hearing complaints about Linux hardware support, most of my hardware worked out of the box without a hiccup. The only thing I can't get to work is the fingerprint reader, but that's pretty obvious. Even my horrible printer worked! Although the CUPS vulnerability wasn't as great...
+
+One thing I noticed almost immediately is how well GNOME's workflow works on a laptop. The touchpad gestures are first class. A lot of people don't seem to like it, but I really enjoy it. I have a few extensions installed to add some useful features, like tray icons and caffeine.
+
+Most of the apps I use were available as flatpaks and AppImages. This solved my biggest problem at the time and I had to install about 0 packages. But flatpaks and AppImages are not really meant for CLI applications, so how can I install those?
+
+### Packaging Detour
+
+One of the biggest differences between atomic and mutable distros is how they manage packages.
+
+On regular Fedora you are used to installing things with `dnf install`, on Ubuntu with `apt-get install` and on Arch with one of the 20 popular solutions. When you install something - it is immediately usable, no reboot necessary. The side effect of this is that if something goes wrong during the upgrade, your whole system can come crashing down with it.
+
+On atomic distros, nothing is applied live. If something goes wrong, you could just fall back to the previous state. Some OSes, such as VanillaOS, don't allow you to modify the base system at all. Fedora is a bit more liberal with this, allowing you to "overlay" packages on top of the base image using `rpm-ostree`. This can make updates longer and promotes `rpm-ostree` from a package to a more of a system image manager.
+
+So, if it's best not to overlay packages, how can I neoflex my cool set up? Introducing... Homebrew on Linux! Yes, the popular macOS package manager makes itself useful on Linux thanks to Fedora Atomic! Since `brew` does not modify the system, we can safely `brew` a variety of packages to suit our tastes.
+
+This simple flatpak + homebrew setup basically solved 90% of my packaging needs. Where did the 10% of my packages go? Well, let's just say, my boxes.
+
+### A Box of Light at the End of the Distro Tunnel
+
+Silverblue comes pre-installed with Toolbox, a tool for running distros under your main system. It allows you to run CLI and GUI(!) applications in their own (not sandboxed) container. The fact that you can run a completely different distro is a huge benefit! It also helps with development by separating your dev environments and all of their dependencies.
+
+But... Toolbox is simple - and that's a problem. For something as complex as distro containers, having lots of configuration options is a must. It's missing a lot of QoL features, such as custom home directories, exporting applications to the host, rootful containers, and more!
+
+The reasonable course of action is to throw Toolbox in the bin (better yet, out of the `/usr/bin/`) and replace it with a more powerful solution, for example [distrobox](https://distrobox.it/). Did you know that `distrobox` is available through `brew`? [BoxBuddy](https://flathub.org/apps/io.github.dvlv.boxbuddyrs) is also pretty useful.
+
+### App Galore
+
+Another great thing about GNOME is its diverse application ecosystem. There are dozens of OSS applications that feel right at home. The LibAdwaita/GTK-4 applications somehow look good even if you try to mess them up.
+
+My favorites probably are [Valent](https://valent.andyholmes.ca/), which is KDE connect written with GTK. [Tuba](https://tuba.geopjr.dev/), one of the best Mastodon/Fediverse clients, [Bottles](https://usebottles.com/), and [Cartridges](https://github.com/kra-mo/cartridges).
+
+It's perfect, what else is there to say? Wait, is this the part where I list bad things?
+
+## Jagged Edges
+
+Does what I have described so far sound like a perfectly stable setup with no problems whatsoever? If you haven't read into the paragraph above, some of this stuff sounds like workarounds for problems that regular distros simply don't have. This is a fairly common theme here.
+
+But what I haven't mentioned are problems not with the atomic nature of Silverblue, but with the Linux desktop\* as a whole.
+
+### Fraction of My Power/Way of the Land
+
+> The Wayland situation is crazy.
+
+As an owner of a Higher-ishDPI laptop, GNOME's default x1 scale doesn't really cut it. Thankfully, after 20 years of development, Wayland and GNOME support fractional scaling. Well, let's enable this feature and set the scale to 125%.
+
+```
+gsettings set org.gnome.mutter experimental-features '["scale-monitor-framebuffer"]'
+```
+<br/>
+
+Well done! But not really. Everything's too big! What have we done wrong? Absolutely nothing. The default scale is just too big, but we can't change it to anything in between. Why?
+
+So to set the scale to something actually usable, we need to edit `~/.config/monitors.xml` and set the scale to 1.2. Yay! (To their credit, this problem was fixed in 47, and now 125% users can sleep soundly.) But something less in GNOME's control is:
+
+#### Xwayland
+
+> 😱😱😱
+
+The x11 server is known for its great design and the way it's compatible with modern technologies and concepts. Because of this, X applications only support integer scales! (1,2,3, not 1.2,1.25,1.5).
+
+This results in beautifully blurry applications and amazing workarounds to force those applications to run under Wayland.
+
+<Picture
+    alt="Screenshot of ONLYOFFICE running under Xwayland with 80% the resolution."
+    src={only_blurry}
+    formats={[`avif`, `webp`]}
+    fallbackFormat="jpg"
+/>
+<br/>
+
+But fear not! GNOME 47 introduces another experimental option for scaling Xwayland windows:
+
+```
+gsettings set org.gnome.mutter experimental-features '["scale-monitor-framebuffer", "xwayland-native-scaling"]'
+```
+<br/>
+
+And half the applications broke. Damn...
+
+What is more annoying is that some applications simply don't work with Wayland, or not well enough, and it's not just one small and unimportant application. **Wine** doesn't use Wayland by default, and running it through Xwayland comes with a massive performance penalty, and its Wayland driver is still partially broken. ONLYOFFICE, GIMP, Chromium, VSCode, JetBrains IDEs and Steam all run through Xwayland!
+
+I ended app forcing all apps to have access to Wayland, but not X11 and added a bunch of Wayland variables from Arch Wiki (😘). Fun!
+
+### Dwarven Software
+
+Just like, Tim, much software refuses to cooperate with Linux. On that note...
+
+One project that has been in development for years, but feels like it hasn't improved much over the years, is Wine. Wine's main purpose is to run Windows software under Linux, and while yes, its support for video games has improved greatly since Valve got involved, its ability to run regular software is poor. Still, the resolution and performance issues with Xwayland made my gaming experience worse, which kind of devalues Valve's contributions.
+
+Don't get me wrong, It runs old software fine, but anything modern, or anything Office, results in hours of troubleshooting, Winetricks and pain. And as mentioned above, Wayland support is still lackluster. The latest and greatest version (9.19) still doesn't support touchpad scrolling and doesn't automatically scale your DPI, among other things.
+
+### Rawpak
+
+Flatpak is a great project - it provides a more secure and controlled application environment, while sharing and isolating application dependencies. It's a universal solution to an annoying problem that some people try their hardest to defend.
+
+But on the user side, it feels underdeveloped. Flatpak requires developers to declare all their dependencies in advance, which is perfectly reasonable, but the lack of a runtime permission system kind of ruins the user experience. Why do I have to download a 3rd party application to tweak permissions when I could just get a prompt asking me directly? This is currently being experimented with by Ubuntu with their snaps.
+
+Another indirect side effect of this permissions system is the terrible flathub "security" rating.  
+Calling any application that requests file access "potentially unsafe" is just a waste of a warning. Tell me, when you see this rating, which application does it remind you of?
+
+<Picture
+    alt="A Flathub warning that an app is Unsafe due to it requesting read/write access to the filesystem and some specific files."
+    src={flathub_perms}
+    formats={[`avif`, `webp`]}
+    fallbackFormat="jpg"
+/>
+<br/>
+
+Did you guess the GNOME text editor? No? I wouldn't be surprised. I would expect a text editor to require read/write access to all files, but you know what might allow the text editor to require access to only certain files? Some kind of runtime permission system...
+
+## Freedom at Last
+
+While my experience with Linux hasn't been perfect, it hasn't been an absolute disaster. Some things just refused to work, like v4l2loopback, and there were major annoyances, like the X11 → Wayland stuff, but overall it was fine, good, even.
+
+GNOME was an eye-opener for me, despite the slow development and strange choices, it's an amazing desktop environment that can be extended with extensions to do what you want. As a side note, I tried Plasma and hated every second of it, it was a Katastrophe, if you will.
+
+I'm a big fan of FOSS, and the main advantage of running Linux for me is that you can trust that your computer isn't working against you to sell you a subscription to a service you don't need, or to bombard you with ads on a ~$140 operating system.
+
+## Picking the Distro (Reprise)
+
+I've been yapping for a bit, but the time has come to answer the question. Will I continue to use the silly GNU + Red Hat + funny penguin operating system, and should you?
+
+### One Month Judgement
+
+Is it fair to judge an entire ecosystem based on one month of casual use? Perhaps after a year of use, my opinions would be completely different?
+
+I believe that posting this historical record of my thoughts now will allow for a deeper retrospective look down the road. If my opinions do change - it would be interesting to explore what exactly caused that change of mind.
+
+### To Linux or not to Linux?
+
+Personally, I enjoyed this experiment, it taught me a lot of new things, like ignoring the opinions of some people online. Oh and Linux, of course.
+
+Is Fedora in the devil tier for me and should have I used Debian or Arch? No. I would break Arch 2 seconds after install and Debian is too stale for me. In the end, despite the shortcomings, I'm staying on Linux and Fedora.
+
+But, what about you? Should you liberate yourself from your pirated copy of Windows? Well, it depends. I've rewritten this section at least 5 times. Every time I start thinking about it - I change my opinion, from No to Yes, from Up to Down, from Hot to Cold. It's difficult to recommend everyone to use desktop\* Linux in its current state.
+
+There are some things the end user just shouldn't have to think about. "What display server am I running?" - is not the kind of question most people can answer. My own experience would be way worse if I knew a bit less. A lot of things still have to be done through the terminal without a viable GUI alternative. There are still decades-old problems that show no sign of being solved.
+
+The amount of choice is amazing - if you have the time. Desktop\* Linux gives you the power to configure your WM, DE, terminal, theme, what init system you want to use, and even the bootloader! But my feeling is that most people want something that works right out of the box, with no configuration required.
+
+As it stands, if you're not doing anything advanced and just using a browser and editing some documents, Silverblue, Mint, Zorin are all good choices. If you're a developer - containers can provide a cleaner development experience. If you like to tinker - absolutely, but you're probably already running NixOS. Everyone else, see you when Microsoft adds Copilot for Control Panel or some shit.
+
+You can also be this bright:
+<Picture
+    alt="Tweet from Tim Sweeney: 
+    'Installing Linux is sort of the equivalent of moving to Canada when one doesn’t like US political trends.
+    Nope, we’ve got to fight for the freedoms we have today, where we have them today.'"
+    src={tim_silley}
+    formats={[`avif`, `webp`]}
+    fallbackFormat="jpg"
+/>
+<br/>
+
+> Hmm, yes, today I will fight for my freedoms against a multi-billion corporation. (clueless)

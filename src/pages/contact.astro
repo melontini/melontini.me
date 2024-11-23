@@ -1,0 +1,56 @@
+---
+import GenericPage from "../layouts/GenericPage.astro";
+import SocialBarLink from "../components/SocialBarLink.astro";
+
+type LinkItem = {
+  title: string;
+  href: string;
+  svg: string;
+  color?: string;
+};
+
+type SocialBlock = {
+  title: string;
+  subtitle: string;
+  links: LinkItem[];
+};
+
+import contactData from "../data/contact.json" assert { type: "json" };
+const contactJS = contactData as SocialBlock[];
+
+const icons = import.meta.glob<{ default: string }>("../images/icons/*", {
+  query: "?raw",
+  import: "default",
+});
+---
+
+<GenericPage title={"Contact me!"} description={"Ways to reach out to me."}>
+  <main class="max-w-full my-0 mx-auto">
+    {
+      contactJS.map(({ title, subtitle, links }) => {
+        return (
+          <div class="soc-container">
+            <h2>
+              <b>{title}</b>
+            </h2>
+            {subtitle && <p>{subtitle}</p>}
+
+            <ul class="gap-1 grid min-w-0">
+              {links.map(({ title, href, svg, color }) => (
+              <SocialBarLink {title} {href} {color}>
+                <Fragment set:html={icons[svg]()} />
+              </SocialBarLink>
+            ))}
+            </ul>
+          </div>
+        );
+      })
+    }
+
+    <style>
+      .soc-container {
+        @apply my-4 text-center rounded-xl p-2 bg-elevation-1 mx-auto w-full sm:w-3/4 lg:w-2/4;
+      }
+    </style>
+  </main>
+</GenericPage>

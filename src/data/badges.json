@@ -1,0 +1,39 @@
+[
+    {
+        "href": "https://modrinth.com/user/melontini",
+        "img": "../images/badges/modrinth-available.svg",
+        "alt": "Available on Modrinth"
+    },
+    {
+        "img": "../images/badges/fediverse-follow.svg",
+        "alt": "Follow on the Fediverse"
+    },
+    {
+        "href": "https://wetdry.world/@melontini",
+        "img": "../images/badges/mastodon-follow.svg",
+        "alt": "Follow on Mastodon"
+    },
+    {
+        "href": "https://bsky.app/profile/melontini.me",
+        "img": "../images/badges/bluesky-follow.svg",
+        "alt": "Follow on Bluesky"
+    },
+    {
+        "img": "../images/badges/mit.svg",
+        "alt": "License MIT"
+    },
+    {
+        "href": "https://github.com/melontini/mini-badges/blob/main/LICENSE",
+        "img": "../images/badges/cc-by-sa-4.0.svg",
+        "alt": "License BY-SA 4.0"
+    },
+    {
+        "img": "../images/badges/terrible.svg",
+        "alt": "Terrible"
+    },
+    {
+        "href": "https://github.com/melontini/mini-badges/",
+        "img": "../images/badges/check-out-github.svg",
+        "alt": "Check out on GitHub"
+    }
+]

@@ -1,0 +1,103 @@
+---
+title: 'Your Dependency Verification System Sucks'
+description: 'Yes, this page is about Gradle...'
+pubDate: 'Aug 08 2024'
+heroImage: '/manuscript/signed_gradle.jpg'
+---
+
+When you download a file from the Internet, how do you know that the file you are downloading is from the people* you are supposed to be downloading it from? We use various systems to ensure that no hijacking has occurred. Most of the "consumer friendly" verification features are not very good, they just hint that something is probably, maybe safe. No more, no less.
+
+A better and more advanced system is digital signatures. Unlike regular signatures, digital signatures are (at the time of writing) impossible to forge. They provide the ultimate level of trust, where you can (almost) trust the source you are downloading from.
+
+This system needs to extend to working with software projects, more specifically, working with dependencies. This is critical to everyone's digital security and needs to be promoted as much as possible.
+
+But this page is about Gradle, and no amount of cute elephant mascots can save you from minor criticism...
+
+> [!NOTE]
+> I'm no cryptographer, but this is basic common sense. (and my opinion)
+
+## "Verifying dependencies"
+
+The page explaining Gradle's terrible verification system has a very important quote:
+
+> Dependency verification is about trust in what you get and what you ship.
+>
+> \- [This page](https://docs.gradle.org/current/userguide/dependency_verification.html)
+
+This is why you cannot allow developers to just download jars from the Internet. That is too dangerous. Developers must be penalized for knowingly ignoring signatures, and publishers must be penalized for knowingly not publishing them.
+
+If the "trust" is broken, who's there to verify that the trust is actually broken? Well, not Gradle, lol.
+
+## "The right balance"
+
+There is no right balance for security in software projects. If your project is insecure - your project is lesser than other projects. Especially if your project is a library.
+
+By default, Gradle does NOT check the signatures or checksums of the files it downloads. This is the bare minimum, and does not require anyone to do anything at all. Gradle should do the downloading and checking automatically. 
+
+Why is this not enabled by default?
+
+Also, the same page says that:
+
+> Gradle supports MD5, SHA1, SHA-256 and SHA-512 checksums. However, only SHA-256 and SHA-512 checksums are considered secure nowadays.
+
+So why do you support them? Why are you allowing outdated and insecure systems to live longer than they should? And why are you actively making the problem worse by publishing them with all the artifacts?
+
+> Uh, backwards compatibility?
+
+No, security is not the place for "backwards compatibility" with insecure systems, Gradle should actively scream at you for using those insecure hashes.
+
+## "Enabling dependency verification"
+
+So you have made the brave decision to stand up and do something to improve your security. Will Gradle make it easy for you to enable this important security feature? Well, no! Because despite using Java properties, Groovy, and TOML everywhere else, Gradle chose to use XML. 
+
+XML is a terrible configuration file format; the only contender for being worse is YAML, which is popular in the deployment space and is a secret tool for ensuring the job security of software engineers.
+
+Other than that, if you don't specify all dependencies right away. Gradle will fail to build your project.
+
+Add the following to `$PROJECT_ROOT/gradle/verification-metadata.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<verification-metadata xmlns="https://schema.gradle.org/dependency-verification"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://schema.gradle.org/dependency-verification https://schema.gradle.org/dependency-verification/dependency-verification-1.3.xsd">
+   <configuration>
+      <verify-metadata>true</verify-metadata>
+      <verify-signatures>true</verify-signatures>
+    </configuration>
+</verification-metadata>
+```
+
+Now run this task `gradle --write-verification-metadata pgp,sha512 help`. This will inflate yourverification-metadata.xml, with checksums that are maybe correct and half the PGP keys are missing. You will have to do this by hand every time something updates.
+
+Oh, PGP...
+
+## Pretty Ginormous Problem
+
+[The PGP Problem](https://www.latacora.com/blog/2019/07/16/the-pgp-problem/) - LATACORA
+
+It doesn't take much knowledge of cryptography to conclude that using an overcomplicated security system from the 1990s, spearheaded by the GNU project, in the year of our Lord 2024 may not be good enough for modern systems that thousands of projects depend on.
+
+PGP is old, overcomplicated, difficult to use, and bad. Stop using PGP. Just don't.
+
+> What should I use instead?
+
+I'll take anything at this point. Use [Minisign](https://jedisct1.github.io/minisign/) or just ssh-keygen, since it's already installed by default on almost all systems. ssh-ed25519 public keys are so short that you can even store them in some sort of config file, though I'm not sure where.
+
+## What Now?
+
+[Signing .jars is worthless](https://quanttype.net/posts/2020-07-26-signing-jars-is-worthless.html) - Miikka Koskinen
+
+The current system is too bad to recommend to anyone, it stinks, and it actively punishes you for trying to activate it.
+
+> You can't just say something is bad without offering an alternative!
+
+True... So I'm going to try!
+
+First, drop PGP in favor of SSH and enable verification by default.
+
+There should be more ways to specify hashes and keys. e.g. We already have `*.versions.toml`, why not `*.verifications.toml`? Anything to get away from XML!
+
+Gradle should be able to automatically generate missing checksums in a binary file, similar to yarn.lock or bun.lockb. You shouldn't have to check checksums manually. As with signatures, automatically detect signed dependencies and fail if there's no matching key for that module, warn if the dependency is unsigned. If there's a mismatch - fail to build. Simple as that.
+
+When publishing, Gradle must require signing by default. Anything that reduces security must be a known choice.

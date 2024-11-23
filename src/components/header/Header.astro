@@ -1,0 +1,86 @@
+---
+import MenuNavigation from "./MenuNavigation.svelte";
+import MenuButton from "./MenuButton.svelte";
+import NavigationBarLink from "./NavigationBarLink.astro";
+
+const icons = import.meta.glob<{ default: string }>("../../images/icons/*", {
+  query: "?raw",
+  import: "default",
+});
+const query = "../../images/icons/";
+
+const links = [
+  {
+    href: "/",
+    title: "Home",
+    svg: icons[query + "home.svg"](),
+  },
+  {
+    href: "/manuscript",
+    title: "Manuscript",
+    svg: icons[query + "book.svg"](),
+  },
+  {
+    href: "/contact",
+    title: "Contact",
+    svg: icons[query + "chat.svg"](),
+  },
+];
+---
+
+<MenuNavigation client:load>
+  <div class="m-2 text-inv-base flex gap-2 items-center">
+    <MenuButton
+      client:load
+      aria-label="Toggle Navigation"
+      class="hovered bg-elevation-2 p-3 rounded-xl"
+    >
+      <div class="w-5 h-5 flex items-center">
+        <Fragment set:html={icons[query + "close.svg"]()} />
+      </div>
+    </MenuButton>
+    <p class="my-auto text-xl">Navigator 4000</p>
+  </div>
+
+  <ul class="p-2 grid gap-1">
+    {
+      links.map(({ href, title, svg }) => (
+        <li class="link-main-container hovered min-w-0">
+          <NavigationBarLink {href} class="no-underline text-inv-base">
+            <div class="link-content-container">
+              <div>
+                <div class="w-6 h-6 flex items-center m-auto">
+                  <Fragment set:html={svg} />
+                </div>
+              </div>
+              <span class="select-none">|</span>
+              <div class="m-0 text-current text-xl">{title}</div>
+            </div>
+          </NavigationBarLink>
+        </li>
+      ))
+    }
+  </ul>
+</MenuNavigation>
+
+<header class="m-0 p-2 text-xl bg-elevation-1">
+  <nav class="p-2 text-inv-elevation-1 flex gap-2 w-full">
+    <MenuButton
+      client:load
+      aria-label="Toggle Navigation"
+      class="w-6 h-6 flex items-center"
+    >
+      <Fragment set:html={icons[query + "hamburger-menu.svg"]()} />
+    </MenuButton>
+  </nav>
+</header>
+
+<style>
+  .link-main-container {
+    @apply w-full first:rounded-t-xl last:rounded-b-xl bg-elevation-2 mx-auto;
+  }
+
+  .link-content-container {
+    @apply overflow-hidden p-3 flex space-x-2 items-center;
+  }
+</style>

@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-base: #fff;
+    --color-elevation-1: #e7e9ec;
+    --color-elevation-2: #dbdee3;
+
+    --color-inv-base: #000;
+    --color-inv-elevation-1: #171717;
+    --color-inv-elevation-2: #262626;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-base: #000;
+      --color-elevation-1: #171717;
+      --color-elevation-2: #262626;
+
+      --color-inv-base: #fff;
+      --color-inv-elevation-1: #e7e9ec;
+      --color-inv-elevation-2: #dbdee3;
+    }
+  }
+
+  :root {
+    --global-transition: 150ms
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --global-transition: 0ms
+    }
+  }
+}
+
+@layer components {
+  .hovered {
+    @apply ease-in-out
+    focus:brightness-90 hover:brightness-90
+    dark:focus:brightness-125 dark:hover:brightness-125;
+
+    transition-duration: var(--global-transition);
+  }
+
+  .global-transition {
+    transition-duration: var(--global-transition);
+  }
+
+  .pixelated {
+    image-rendering: pixelated;
+  }
+}
+
+body {
+  @apply p-0 m-0 text-left break-words text-lg leading-normal bg-base;
+  font-family: "Rubik", sans-serif;
+  word-wrap: break-word;
+}
+main {
+  @apply m-auto py-12 px-4 w-11/12 sm:w-10/12 lg:w-4/5;
+}
+ul,
+p {
+  @apply text-inv-elevation-1;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply leading-tight text-inv-base mx-0 mt-0 mb-2;
+}
+h1 {
+  @apply text-4xl;
+}
+h2 {
+  @apply text-3xl;
+}
+h3 {
+  @apply text-2xl;
+}
+h4 {
+  @apply text-xl;
+}
+h5 {
+  @apply text-lg;
+}
+strong,
+b {
+  @apply font-bold;
+}
+a {
+  @apply underline text-cranberry;
+}
+p {
+  @apply mb-4;
+}
+.prose p {
+  @apply mb-8;
+}
+textarea {
+  @apply w-full text-base;
+}
+input {
+  @apply text-base;
+}
+table {
+  @apply w-full;
+}
+img {
+  @apply max-w-full h-auto rounded-xl;
+}
+code {
+  @apply py-[2px] px-[5px] rounded-sm bg-elevation-2;
+}
+pre {
+  @apply p-6 rounded-xl;
+}
+pre > code {
+  all: unset;
+}
+blockquote {
+  @apply  p-0 pl-5 m-0 border-l-4 border-l-cranberry;
+}
+hr {
+  @apply p-[1.7px] border-0 border-none rounded-md;
+  background: linear-gradient(to right, #39a8e9, #ed5d8a, #e6b03c);
+}
+
+.anchor-link {
+  @apply -m-6 mr-1 no-underline text-3xl opacity-50 ease-in-out duration-200 hover:opacity-100 select-none;
+}
+
+.sr-only {
+  @apply border-0 p-0 m-0 h-[1px] w-[1px] overflow-hidden;
+  @apply absolute !important;
+  /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px 1px 1px 1px);
+  /* maybe deprecated but we need to support legacy browsers */
+  clip: rect(1px, 1px, 1px, 1px);
+  /* modern browsers, clip-path works inwards from each corner */
+  clip-path: inset(50%);
+  /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
+  white-space: nowrap;
+}

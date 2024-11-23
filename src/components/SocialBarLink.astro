@@ -1,0 +1,33 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  color?: string;
+}
+
+const { href, title, color = "#ed5d8a" } = Astro.props;
+---
+
+<li class="main-container hovered min-w-0">
+  <a
+    class:list={["no-underline", "text-inv-base", "global-transition"]}
+    style={`--hover-color: ${color};`}
+    href={href}
+    target="_blank"
+  >
+    <div class="p-2 flex items-center gap-2 overflow-hidden">
+      <div class="w-10 h-10 p-1 flex items-center"><slot /></div>
+      <div class="text-current text-3xl">{title}</div>
+    </div>
+  </a>
+</li>
+
+<style>
+  a:hover {
+    color: var(--hover-color);
+  }
+
+  .main-container {
+    @apply bg-elevation-2 first:rounded-t-xl last:rounded-b-xl mx-auto w-full;
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+import GenericPage from "../layouts/GenericPage.astro";
+import NotFound from "../components/NotFound.svelte";
+import splashes from "../data/404-splashes.json";
+---
+
+<GenericPage title="404" description="Oops! Nothing can be found here!">
+  <main class="text-center">
+    <h1
+      class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-picton-blue via-cranberry to-tulip-tree"
+    >
+      <b>404</b>
+    </h1>
+
+    <NotFound pool={splashes} client:only="svelte" />
+
+    <style>
+      h1 {
+        @apply leading-none text-[6em] sm:text-[10em] !important;
+      }
+    </style>
+  </main>
+</GenericPage>

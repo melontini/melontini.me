@@ -1,0 +1,46 @@
+[
+    {
+        "title": "Direct Contact",
+        "subtitle": "I'm more likely to answer here!",
+        "links": [
+            {
+                "title": "Matrix",
+                "href": "https://matrix.to/#/@melontini:matrix.org",
+                "svg": "../images/icons/matrix.svg"
+            },
+            {
+                "title": "Email",
+                "href": "mailto:mail@melontini.me",
+                "svg": "../images/icons/email.svg"
+            }
+        ]
+    },
+    {
+        "title": "Socials",
+        "links": [
+            {
+                "title": "Mastodon",
+                "href": "https://wetdry.world/@melontini",
+                "svg": "../images/icons/mastodon.svg",
+                "color": "#615FF9"
+            },
+            {
+                "title": "Bluesky",
+                "href": "https://bsky.app/profile/melontini.me",
+                "svg": "../images/icons/bluesky.svg",
+                "color": "#0085FF"
+            },
+            {
+                "title": "GitHub",
+                "href": "https://github.com/melontini",
+                "svg": "../images/icons/github.svg"
+            },
+            {
+                "title": "YouTube",
+                "href": "https://www.youtube.com/@melontini",
+                "svg": "../images/icons/youtube.svg",
+                "color": "#ff0033"
+            }
+        ]
+    }
+]

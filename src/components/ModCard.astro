@@ -1,0 +1,39 @@
+---
+import { Picture } from "astro:assets";
+
+interface Props {
+  href: string;
+  img: Promise<{ default: ImageMetadata }> | ImageMetadata;
+  title: string;
+  desc: string;
+  alt?: string;
+}
+
+const { href, img, title, desc, alt = title + " mod icon" } = Astro.props;
+---
+
+<div class="main-container hovered">
+  <a class="no-underline" {href} target="_blank" class="no-underline">
+    <div class="content-container">
+      <Picture
+        alt={alt}
+        class="size-32 mx-auto my-3 rounded-3xl"
+        src={img}
+        formats={[`avif`, `webp`]}
+        fallbackFormat="jpg"
+      />
+      <h3>{title}</h3>
+      <p>{desc}</p>
+    </div>
+  </a>
+</div>
+
+<style>
+  .main-container {
+    @apply first:rounded-l-xl last:rounded-r-xl grow bg-elevation-2;
+  }
+
+  .content-container {
+    @apply text-center w-48 m-3 whitespace-normal break-words;
+  }
+</style>

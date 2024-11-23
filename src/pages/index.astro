@@ -1,0 +1,174 @@
+---
+import GenericPage from "../layouts/GenericPage.astro";
+import ModCard from "../components/ModCard.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { Image, Picture } from "astro:assets";
+
+import pfp from "../images/pfp-s.png";
+
+import buwos from "../images/buwos_mt.webp";
+
+import badgesJS from "../data/badges.json";
+import modsJS from "../data/mod-projects.json";
+
+const badgeFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../images/badges/*"
+);
+
+const modFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../images/mod_projects/*"
+);
+---
+
+<GenericPage title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <div class="header">
+    <div class="pb-5 pfp-gradient">
+      <div class="py-3">
+        <Picture
+          src={pfp}
+          alt=""
+          formats={[`avif`, `webp`]}
+          fallbackFormat="png"
+          width="360"
+          height="360"
+          class="rounded-full mx-auto my-2 bg-base w-36 h-36"
+        />
+        <div style="">
+          <h1 class="my-0 inline-block">🌞 Hi, I'm melontini!</h1>
+          <p class="my-0 inline-block text-inv-elevation-2">(any/all)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <p class="text-center">
+      I enjoy doing different things, so you can find me in a few different
+      places. Such as:
+    </p>
+
+    <div class="grid gap-1 md:grid-cols-2">
+      <div class="hovered bg-elevation-1 p-2 rounded-t-xl md:rounded-tr-none text-center">
+        <a
+          href="https://github.com/melontini/bootloader-unlock-wall-of-shame"
+          target="_blank"
+          class="no-underline"
+        >
+          <div
+            class="rounded-xl size-full bg-cover inline-block relative z-[1]"
+          >
+            <Picture
+              class="pointer-events-none select-none absolute size-full object-cover -z-[1]"
+              formats={[`avif`, `webp`]}
+              fallbackFormat="jpg"
+              src={buwos}
+              alt=""
+            />
+            <div class="mx-auto size-11/12 *:text-white">
+              <h2 class="mt-4">
+                <b>Bootloader Unlock: Wall of Shame 🔒🔥🔑</b>
+              </h2>
+              <h3>Keeping track of companies that "care about your data 🥺"</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="bg-elevation-1 p-2 md:rounded-tr-xl text-center">
+        <a
+          class="hovered"
+          target="_blank"
+          href="https://github.com/melontini/mini-badges"
+        >
+          <h2 class="underline text-cranberry"><b>Mini Badges 📛</b></h2>
+        </a>
+
+        <p>A collection of various project badges...</p>
+        <div class="flex justify-center flex-wrap">
+          {
+            badgesJS.map(({ img, href, alt }) => {
+              let image = (
+                <Image
+                  class="m-1 rounded-none"
+                  height="23"
+                  loading="lazy"
+                  src={badgeFiles[img]()}
+                  alt={alt}
+                />
+              );
+
+              return href ? (
+                <a {href} target="_blank" class="hovered">
+                  {image}
+                </a>
+              ) : (
+                image
+              );
+            })
+          }
+        </div>
+        <p>... And more!</p>
+      </div>
+
+      <div
+        class="bg-elevation-1 p-2 rounded-b-xl text-center md:col-span-2 overflow-hidden"
+      >
+        <h2><b>Minecraft Mods ⚙️</b></h2>
+        <p>
+          I used to make mods for Minecraft: Java Edition. You can still check
+          them out!
+        </p>
+        <div
+          class="rounded-xl mt-5 overflow-y-hidden overflow-x-auto flex gap-1"
+        >
+          {
+            modsJS.map(({ title, desc, href, img }) => {
+              return <ModCard {title} {desc} {href} img={modFiles[img]()} />;
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    @keyframes hr_slide {
+      from {
+        background-position: 0%;
+      }
+
+      to {
+        background-position: 100%;
+      }
+    }
+
+    .pfp-gradient {
+      background-image: linear-gradient(
+        to bottom,
+        #ffffff00,
+        #ffffff60,
+        #ffffff9a,
+        #ffffff
+      );
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .pfp-gradient {
+        background-image: linear-gradient(
+          to bottom,
+          #00000000,
+          #00000060,
+          #0000009a,
+          #000000
+        );
+      }
+    }
+
+    .header {
+      text-align: center;
+      background: linear-gradient(to right bottom, #39a8e9, #ed5d8a, #e6b03c);
+      background-size: 200%;
+      background-position: 0%;
+      animation: hr_slide 10s linear infinite alternate-reverse;
+    }
+  </style>
+</GenericPage>

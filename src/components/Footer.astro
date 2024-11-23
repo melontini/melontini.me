@@ -1,0 +1,81 @@
+---
+import { Image } from "astro:assets";
+
+import rss_icon from "../images/icons/rss.svg?raw";
+import _88x31 from "../data/88x31.json";
+
+const today = new Date();
+---
+
+<hr class="my-0" />
+
+<footer>
+  <div
+    class="flex justify-center gap-4 mb-2 [&>a]:hovered [&>a]:no-underline [&>a]:text-inv-elevation-2"
+  >
+    <a href="/rss.xml" target="_blank">
+      <span class="sr-only">Open RSS Feed</span>
+      <div class="w-7 h-7 p-1 flex items-center">
+        <Fragment set:html={rss_icon} />
+      </div>
+    </a>
+  </div>
+
+  <p>
+    <a property="dct:title" rel="cc:attributionURL" href="https://melontini.me/"
+      >homepage</a
+    > &copy; {today.getFullYear()} by <a
+      rel="cc:attributionURL dct:creator"
+      property="cc:attributionName"
+      href="https://melontini.me/">melontini</a
+    > is licensed under <a
+      class="*:inline-block"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1"
+      target="_blank"
+      rel="license noopener noreferrer"
+      style="display:inline-block;"
+      >CC BY-NC-SA 4.0 {
+        ["cc", "by", "nc", "sa"].map((s) => {
+          let src = `https://mirrors.creativecommons.org/presskit/icons/${s}.svg?ref=chooser-v1`;
+          return (
+            <Image
+              width="22"
+              height="22"
+              style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
+              {src}
+              alt=""
+            />
+          );
+        })
+      }</a
+    >
+  </p>
+  <p>
+    Most fonts and icons are from <a href="https://fonts.google.com"
+      >Google Fonts</a
+    >
+  </p>
+
+  <div class="flex mx-auto justify-center">
+    {
+      _88x31.map(({ src, alt }) => (
+        <img
+          loading="lazy"
+          decoding="async"
+          class="_88x31 pixelated"
+          {src}
+          {alt}
+        />
+      ))
+    }
+  </div>
+</footer>
+<style>
+  ._88x31 {
+    @apply rounded-none p-1 h-16;
+  }
+
+  footer {
+    @apply text-center px-4 pb-24 pt-4;
+  }
+</style>

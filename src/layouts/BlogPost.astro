@@ -1,0 +1,59 @@
+---
+import GenericPage from "./GenericPage.astro";
+
+import type { CollectionEntry } from "astro:content";
+import { Picture } from "astro:assets";
+import FormattedDate from "../components/FormattedDate.astro";
+import ManuscriptComments from "../components/ManuscriptComments.astro";
+import "remark-github-alerts/styles/github-colors-light.css";
+import "remark-github-alerts/styles/github-colors-dark-class.css";
+import "remark-github-alerts/styles/github-base.css";
+
+type Props = CollectionEntry<"manuscript">["data"];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<GenericPage {title} {description} image={heroImage}>
+  <main class="max-w-full my-0 mx-auto">
+    <article class="mx-auto w-full sm:w-3/4 lg:w-2/3">
+      <div class="bg-elevation-1 p-3 mb-6 rounded-xl">
+        {
+          heroImage && (
+            <Picture
+              class="mx-auto rounded-xl"
+              width={1020}
+              height={510}
+              src={heroImage}
+              alt=""
+              formats={[`avif`, `webp`]}
+              fallbackFormat="jpg"
+            />
+          )
+        }
+        <div class="pt-4 px-0 text-center list-none">
+          <div class="text-inv-elevation-1 mb-2">
+            <FormattedDate date={pubDate} />
+            {
+              updatedDate && (
+                <div class="italic">
+                  Last updated on <FormattedDate date={updatedDate} />
+                </div>
+              )
+            }
+          </div>
+          <h1 class="mt-2 text-2xl sm:text-3xl lg:text-4xl">{title}</h1>
+        </div>
+      </div>
+
+      <div class="mx-auto">
+        <slot />
+        <div
+          class="w-full bg-elevation-1 rounded-xl p-3 sm:w-11/12 lg:w-4/5 mx-auto"
+        >
+          <ManuscriptComments />
+        </div>
+      </div>
+    </article>
+  </main>
+</GenericPage>
