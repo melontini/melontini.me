@@ -114,15 +114,6 @@ table {
 img {
   @apply max-w-full h-auto rounded-xl;
 }
-code {
-  @apply py-[2px] px-[5px] rounded-sm bg-elevation-2;
-}
-pre {
-  @apply p-6 rounded-xl;
-}
-pre > code {
-  all: unset;
-}
 blockquote {
   @apply  p-0 pl-5 m-0 border-l-4 border-l-cranberry;
 }

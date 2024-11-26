@@ -1,5 +1,5 @@
 <script>
-    import { toggleState } from "./menu.svelte.js"
+    import { toggleState } from "./menu.svelte"
     let { children, ...others } = $props();
 </script>
 

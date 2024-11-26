@@ -1,6 +1,6 @@
 <script>
   import { fade, fly } from "svelte/transition";
-  import { toggleState, menuState } from "./menu.svelte.js"
+  import { toggleState, menuState } from "./menu.svelte"
 
   let { children } = $props();
   menuState.open = false

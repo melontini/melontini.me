@@ -28,10 +28,10 @@ const links = [
 ];
 ---
 
-<MenuNavigation client:load>
+<MenuNavigation client:only="svelte">
   <div class="m-2 text-inv-base flex gap-2 items-center">
     <MenuButton
-      client:load
+      client:only="svelte"
       aria-label="Toggle Navigation"
       class="hovered bg-elevation-2 p-3 rounded-xl"
     >
@@ -66,7 +66,7 @@ const links = [
 <header class="m-0 p-2 text-xl bg-elevation-1">
   <nav class="p-2 text-inv-elevation-1 flex gap-2 w-full">
     <MenuButton
-      client:load
+      client:only="svelte"
       aria-label="Toggle Navigation"
       class="w-6 h-6 flex items-center"
     >

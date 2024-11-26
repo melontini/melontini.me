@@ -1,20 +1,81 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import BlogPost from "../../layouts/BlogPost.astro";
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const posts = await getCollection("manuscript");
-  return posts.map((post: { slug: any; }) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
+import GenericPage from "../../layouts/GenericPage.astro";
+import {
+  atpAgent,
+  ATP_HANDLE,
+  type WhtwndBlogEntryRecord,
+} from "../../at.agent";
+import { RecordNotFoundError } from "@atproto/api/dist/client/types/com/atproto/repo/getRecord";
+import FormattedDate from "../../components/FormattedDate.astro";
+import ManuscriptComments from "../../components/ManuscriptComments.astro";
+import "highlight.js/styles/github-dark.css";
+
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: "hljs",
+    langPrefix: "hljs language-",
+    highlight(code, lang, _) {
+      const language = hljs.getLanguage(lang) ? lang : "plaintext";
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
+
+let post;
+try {
+  let res = await atpAgent.com.atproto.repo.getRecord({
+    collection: "com.whtwnd.blog.entry",
+    repo: ATP_HANDLE,
+    rkey: Astro.params.slug as string,
+  });
+
+  post = res.data.value as WhtwndBlogEntryRecord;
+} catch (error) {
+  if (error instanceof RecordNotFoundError) {
+    return new Response(null, {
+      status: 404,
+      statusText: "Record Not Found!",
+    });
+  }
+  throw error;
 }
-type Props = CollectionEntry<"manuscript">;
-
-const post = Astro.props;
-const { Content } = await post.render();
 ---
 
-<BlogPost {...post.data}>
-  <Content />
-</BlogPost>
+<GenericPage
+  title={post.title}
+  description={""}
+  image={post?.ogp?.url ?? undefined}
+>
+  <main class="max-w-full my-0 mx-auto">
+    <article class="mx-auto w-full sm:w-3/4 lg:w-2/3">
+      <div class="bg-elevation-1 p-3 mb-6 rounded-xl">
+        {
+          post?.ogp?.url && (
+            <img loading="eager" decoding="async" src={post?.ogp?.url} />
+          )
+        }
+        <div class="pt-4 px-0 text-center list-none">
+          <div class="text-inv-elevation-1 mb-2">
+            <FormattedDate date={new Date(post.createdAt)} />
+          </div>
+          <h1 class="mt-2 text-2xl sm:text-3xl lg:text-4xl">{post.title}</h1>
+        </div>
+      </div>
+
+      <div class="mx-auto">
+        {post.content && <Fragment set:html={marked.parse(post.content)} />}
+        <div
+          class="w-full bg-elevation-1 rounded-xl p-3 sm:w-11/12 lg:w-4/5 mx-auto"
+        >
+          <ManuscriptComments />
+        </div>
+      </div>
+    </article>
+  </main>
+</GenericPage>
