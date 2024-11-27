@@ -1,5 +1,7 @@
 <script lang="ts">
   import { listPosts } from "../../at.agent";
+  import { slide } from "svelte/transition";
+
   let postsPromise = listPosts();
 
   let gradients = [
@@ -28,39 +30,50 @@
   class="loading-container min-h-40 bg-elevation-1 rounded-xl mx-auto mb-5 w-full sm:w-8/12 text-center hovered"
 >
   {#await postsPromise}
-    <div class="p-2">
-      <div style="aspect-ratio: 5/2;" class="mb-2"></div>
+    <div out:slide|global>
+      <div class="p-2">
+        <div class="post-banner mb-2"></div>
+      </div>
     </div>
   {:then posts}
     {#if posts.length > 0}
-      <a class="no-underline" href={`/manuscript/${posts[0].rkey}`}>
-        <div class="p-2">
-          {#if posts[0].record?.ogp?.url}
-            <img alt="" src={posts[0].record?.ogp?.url} class="mb-2 rounded-xl" />
-          {:else}
-            <div
-              style="background: linear-gradient(to right, {gradients[
-                new Date(posts[0].record.createdAt).valueOf() % gradients.length
-              ]}); opacity: 65%; aspect-ratio: 5/2;"
-              class="mb-2 rounded-xl"
-            ></div>
-          {/if}
-        </div>
+      <div in:slide|global>
+        <a class="no-underline" href={`/manuscript/${posts[0].rkey}`}>
+          <div class="p-2">
+            {#if posts[0].record?.ogp?.url}
+              <img
+                alt=""
+                loading="eager"
+                decoding="async"
+                src={posts[0].record?.ogp?.url}
+                class="post-banner mb-2 rounded-xl"
+              />
+            {:else}
+              <div
+                style="background: linear-gradient(to right, {gradients[
+                  new Date(posts[0].record.createdAt).valueOf() %
+                    gradients.length
+                ]}); opacity: 65%;"
+                class="post-banner mb-2 rounded-xl"
+              ></div>
+            {/if}
+          </div>
 
-        <h4 class="m-0 px-2 text-2xl sm:text-3xl lg:text-4xl">
-          {posts[0].record.title}
-        </h4>
+          <h4 class="m-0 px-2 text-2xl sm:text-3xl lg:text-4xl">
+            {posts[0].record.title}
+          </h4>
 
-        <p class="">
-          <time datetime={new Date(posts[0].record.createdAt).toISOString()}>
-            {new Date(posts[0].record.createdAt).toLocaleDateString("en-us", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </time>
-        </p>
-      </a>
+          <p class="">
+            <time datetime={new Date(posts[0].record.createdAt).toISOString()}>
+              {new Date(posts[0].record.createdAt).toLocaleDateString("en-us", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+          </p>
+        </a>
+      </div>
     {/if}
   {:catch err}
     <div class="p-2">
@@ -78,23 +91,32 @@
   <ul class="grid sm:grid-cols-2 gap-2 m-0 p-0 md:gap-8">
     {#await postsPromise}
       {#each [0, 0, 0, 0] as _}
-        <li class="loading-container bg-elevation-1 rounded-xl">
-          <div style="aspect-ratio: 5/2" class="mb-2"></div>
+        <li out:slide|global class=" loading-container bg-elevation-1 rounded-xl">
+          <div class="post-banner mb-2"></div>
         </li>
       {/each}
     {:then posts}
       {#each posts.slice(1) as post}
-        <li class="bg-elevation-1 rounded-xl text-center hovered">
+        <li
+          in:slide|global
+          class="bg-elevation-1 rounded-xl text-center hovered"
+        >
           <a href={`/manuscript/${post.rkey}/`} class="block pb-3 no-underline">
             <div class="p-2 pb-0">
               {#if post.record?.ogp?.url}
-                <img alt="" src={post.record?.ogp?.url} class="mb-2 rounded-xl" />
+                <img
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  src={post.record?.ogp?.url}
+                  class="post-banner mb-2 rounded-xl"
+                />
               {:else}
                 <div
                   style="background: linear-gradient(to right, {gradients[
                     new Date(post.record.createdAt).valueOf() % gradients.length
-                  ]}); opacity: 65%; aspect-ratio: 5/2;"
-                  class="mb-2 rounded-xl"
+                  ]}); opacity: 65%;"
+                  class="post-banner mb-2 rounded-xl"
                 ></div>
               {/if}
             </div>
@@ -126,3 +148,9 @@
     }
   </style>
 {/await}
+
+<style>
+  .post-banner {
+    aspect-ratio: 2/1;
+  }
+</style>
