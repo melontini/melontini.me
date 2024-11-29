@@ -1,10 +1,129 @@
 ---
+export const prerender = false;
+
 import GenericPage from "../../layouts/GenericPage.astro";
-import BlogList from "../../components/blog/BlogList.svelte";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+import { listPosts, type WhtwndBlogEntryView } from "../../at.agent";
+
+let posts: WhtwndBlogEntryView[] = await listPosts();
+
+let gradients = [
+  ["#640D5F", "#D91656", "#EB5B00", "#FFB200"],
+  ["#D3F1DF", "#85A98F", "#5A6C57"],
+  ["#5FCBF4", "#F0A0B2", "#ECECEC", "#F0A0B2", "#5FCBF4"],
+  ["#EF248D", "#FBD805", "#4CABE3"],
+  ["#048D73", "#A1D7BD", "#F1F0F8", "#7EACDD", "#402B76"],
+  ["#FAEE3A", "#FFFFFF", "#8C5EA7", "#010101"],
+  ["#010101", "#A2A2A2", "#FFFFFF", "#7C267D"],
+  ["#D52D00", "#FF9B55", "#FFFFFF", "#D462A5", "#A30262"],
+  ["#00FF9C", "#FEFFA7", "#FFE700"],
+  ["#C84793", "#4BB166", "#4288C8"],
+  ["#204D9B", "#E52322", "#000000"],
+  ["#E30613", "#F18815", "#FFED00", "#028137", "#2E57A4", "#6E2381"],
+  ["#FED905", "#67328A"],
+  ["#EE75A1", "#FFFFFF", "#8A4493", "#000000", "#374A99"],
+  ["#433878", "#7E60BF", "#E4B1F0", "#FFE1FF"],
+  ["#347928", "#C0EBA6", "#FFFBE6", "#FCCD2A"],
+  ["#FF6600", "#F5F5F5", "#8FD14F", "#604CC3"],
+  ["#1A1A1D", "#3B1C32", "#6A1E55", "#A64D79"],
+];
+
+function pickGradient(post: WhtwndBlogEntryView) {
+  return gradients[
+    new Date(post.record.createdAt).valueOf() % gradients.length
+  ];
+}
 ---
 
 <GenericPage title="the melonscript" description="What is bro yapping about?">
   <main>
-    <BlogList client:only="svelte"/>
+    <div
+      class="loading-container min-h-40 bg-elevation-1 rounded-xl mx-auto mb-5 w-full sm:w-8/12 text-center hovered"
+    >
+      {
+        posts.length > 0 && (
+          <a class="no-underline" href={`/manuscript/${posts[0].rkey}`}>
+            <div class="p-2">
+              {posts[0].record?.ogp?.url ? (
+                <div class="post-banner mb-2 rounded-xl">
+                  <img
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                    src={posts[0].record?.ogp?.url}
+                  />
+                </div>
+              ) : (
+                <div
+                  style={`background: linear-gradient(to right, ${pickGradient(
+                    posts[0]
+                  )}); opacity: 65%;`}
+                  class="post-banner mb-2 rounded-xl"
+                />
+              )}
+            </div>
+
+            <h4 class="m-0 px-2 text-2xl sm:text-3xl lg:text-4xl">
+              {posts[0].record.title}
+            </h4>
+
+            <p class="">
+              <FormattedDate date={new Date(posts[0].record.createdAt)} />
+            </p>
+          </a>
+        )
+      }
+    </div>
+
+    <hr class="my-10" />
+
+    <section>
+      <ul class="grid sm:grid-cols-2 gap-2 m-0 p-0 md:gap-8">
+        {
+          posts.map((post: WhtwndBlogEntryView) => {
+            <li class="bg-elevation-1 rounded-xl text-center hovered">
+              <a
+                href={`/manuscript/${post.rkey}/`}
+                class="block pb-3 no-underline"
+              >
+                <div class="p-2 pb-0">
+                  {post.record?.ogp?.url ? (
+                    <img
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      src={post.record?.ogp?.url}
+                      class="post-banner mb-2 rounded-xl"
+                    />
+                  ) : (
+                    <div
+                      style={`background: linear-gradient(to right, ${pickGradient(
+                        post
+                      )}); opacity: 65%;`}
+                      class="post-banner mb-2 rounded-xl"
+                    />
+                  )}
+                </div>
+
+                <h4 class="m-0 pt-2 px-2 line leading-none">
+                  {post.record.title}
+                </h4>
+
+                <p class="m-0">
+                  <FormattedDate date={new Date(post.record.createdAt)} />
+                </p>
+              </a>
+            </li>;
+          })
+        }
+      </ul>
+    </section>
+
+    <style>
+      .post-banner {
+        aspect-ratio: 2/1;
+      }
+    </style>
   </main>
 </GenericPage>
