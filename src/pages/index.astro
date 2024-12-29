@@ -8,9 +8,6 @@ import pfp from "../images/pfp-s.png";
 
 import buwos from "../images/buwos_mt.webp";
 
-import badgesJS from "../data/badges.json";
-import modsJS from "../data/mod-projects.json";
-
 const badgeFiles = import.meta.glob<{ default: ImageMetadata }>(
   "../images/badges/*"
 );
@@ -22,7 +19,7 @@ const modFiles = import.meta.glob<{ default: ImageMetadata }>(
 
 <GenericPage title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <div class="header">
-    <div class="pb-5 pfp-gradient">
+    <div class="pfp-gradient">
       <div class="py-3">
         <Picture
           src={pfp}
@@ -35,102 +32,84 @@ const modFiles = import.meta.glob<{ default: ImageMetadata }>(
         />
         <div style="">
           <h1 class="my-0 inline-block">🌞 Hi, I'm melontini!</h1>
-          <p class="my-0 inline-block text-inv-elevation-2">(any/all)</p>
         </div>
       </div>
     </div>
   </div>
 
   <main>
-    <p class="text-center">
-      I enjoy doing different things, so you can find me in a few different
-      places. Such as:
-    </p>
-
-    <div class="grid gap-1 md:grid-cols-2">
-      <div class="hovered bg-elevation-1 p-2 rounded-t-xl md:rounded-tr-none text-center">
-        <a
-          href="https://github.com/melontini/bootloader-unlock-wall-of-shame"
-          target="_blank"
-          class="no-underline"
-        >
-          <div
-            class="rounded-xl size-full bg-cover inline-block relative z-[1]"
-          >
-            <Picture
-              class="pointer-events-none select-none absolute size-full object-cover -z-[1]"
-              formats={[`avif`, `webp`]}
-              fallbackFormat="jpg"
-              src={buwos}
-              alt=""
-            />
-            <div class="mx-auto size-11/12 *:text-white">
-              <h2 class="mt-4">
-                <b>Bootloader Unlock: Wall of Shame 🔒🔥🔑</b>
-              </h2>
-              <h3>Keeping track of companies that "care about your data 🥺"</h3>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="bg-elevation-1 p-2 md:rounded-tr-xl text-center">
-        <a
-          class="hovered"
-          target="_blank"
-          href="https://github.com/melontini/mini-badges"
-        >
-          <h2 class="underline text-cranberry"><b>Mini Badges 📛</b></h2>
-        </a>
-
-        <p>A collection of various project badges...</p>
-        <div class="flex justify-center flex-wrap">
-          {
-            badgesJS.map(({ img, href, alt }) => {
-              let image = (
-                <Image
-                  class="m-1 rounded-none"
-                  height="23"
-                  loading="lazy"
-                  src={badgeFiles[img]()}
-                  alt={alt}
-                />
-              );
-
-              return href ? (
-                <a {href} target="_blank" class="hovered">
-                  {image}
-                </a>
-              ) : (
-                image
-              );
-            })
-          }
-        </div>
-        <p>... And more!</p>
-      </div>
-
+    <div class="grid gap-1 md:grid-cols-3">
       <div
-        class="bg-elevation-1 p-2 rounded-b-xl text-center md:col-span-2 overflow-hidden"
+        class="bg-elevation-1 p-2 rounded-t-xl md:col-span-3 overflow-hidden"
       >
-        <h2><b>Minecraft Mods ⚙️</b></h2>
-        <p>
-          I used to make mods for Minecraft: Java Edition. You can still check
-          them out!
-        </p>
-        <div
-          class="rounded-xl mt-5 overflow-y-hidden overflow-x-auto flex gap-1"
-        >
-          {
-            modsJS.map(({ title, desc, href, img }) => {
-              return <ModCard {title} {desc} {href} img={modFiles[img]()} />;
-            })
-          }
+        <h3 class="text-center"><b>ℹ️ About me</b></h3>
+        <div class="w-11/12 h-11/12 m-auto text-inv-base">
+          <ul>
+            <li><b>Name:</b> melontini or m, all lowercase.</li>
+            <li><b>Woke Pronouns:</b> Any/All, but neutral is preferred.</li>
+          </ul>
+          <br />
+
+          I just do things on the internet.
         </div>
       </div>
+
+      <a href="/projects" class="no-underline">
+        <div class="hovered p-2 md:rounded-bl-xl blue-gradient cool-container">
+          <h3 class="text-center"><b>🪪 Projects</b></h3>
+        </div>
+      </a>
+      <a href="/manuscript" class="no-underline">
+        <div class="hovered p-2 cranberry-gradient cool-container">
+          <h3 class="text-center"><b>📜 Manuscript</b></h3>
+        </div>
+      </a>
+      <a href="/contact" class="no-underline">
+        <div
+          class="hovered p-2 rounded-b-xl md:rounded-bl-none tulip-tree-gradient cool-container"
+        >
+          <h3 class="text-center"><b>📧 Contact</b></h3>
+        </div>
+      </a>
     </div>
   </main>
 
   <style>
+    .cool-container {
+      @apply h-32 flex justify-center items-center;
+    }
+
+    .blue-gradient {
+      background: linear-gradient(
+        to bottom,
+        var(--color-elevation-1) 25%,
+        #39a8e9 125%
+      );
+    }
+    .blue-gradient:hover {
+      background: linear-gradient(to bottom, var(--color-elevation-1), #39a8e9);
+    }
+    .cranberry-gradient {
+      background: linear-gradient(
+        to bottom,
+        var(--color-elevation-1) 25%,
+        #e05188 125%
+      );
+    }
+    .cranberry-gradient:hover {
+      background: linear-gradient(to bottom, var(--color-elevation-1), #e05188);
+    }
+    .tulip-tree-gradient {
+      background: linear-gradient(
+        to bottom,
+        var(--color-elevation-1) 25%,
+        #e6b03c 125%
+      );
+    }
+    .tulip-tree-gradient:hover {
+      background: linear-gradient(to bottom, var(--color-elevation-1), #e6b03c);
+    }
+
     @keyframes hr_slide {
       from {
         background-position: 0%;

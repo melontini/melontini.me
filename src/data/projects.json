@@ -1,0 +1,80 @@
+[
+    {
+        "title": "General",
+        "projects": [
+            {
+                "title": "NeoDuke",
+                "description": "A collection of emojis based on the <a target=\"_blank\" href=\"https://volpeon.ink/emojis/neocat/\">Neocat</a> pack.",
+                "href": "https://github.com/melontini/neoduke",
+                "icon": "https://raw.githubusercontent.com/melontini/neoduke/refs/heads/main/x256/neoduke.png",
+                "alt": "The main NeoDuke emoji. a flat styled Java Duke.",
+                "tags": [
+                    "Art",
+                    "Java"
+                ]
+            },
+            {
+                "title": "Mini Badges",
+                "description": "A collection of different project badges that follow the user's dark mode preference.",
+                "href": "https://github.com/melontini/mini-badges",
+                "icon": "/images/projects/badges.webp",
+                "alt": "A logo styled to look like a mini-badge",
+                "tags": [
+                    "Art",
+                    "Badges"
+                ]
+            },
+            {
+                "title": "Bootloader Unlock: Wall of Shame",
+                "description": "A wiki on how (or how not) to unlock your device's bootloader.",
+                "href": "https://github.com/melontini/bootloader-unlock-wall-of-shame",
+                "icon":"/images/projects/buwos.webp",
+                "alt": "A lock emoji next to the key emoji on fire. The background is fire.",
+                "tags": [
+                    "Android",
+                    "Modding"
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Minecraft",
+        "projects": [
+            {
+                "title": "Andromeda",
+                "description": "A modular, multi-purpose, highly configurable tweaks mod.",
+                "href": "https://andromeda.melontini.me/",
+                "icon": "/images/mod_projects/andromeda.png",
+                "alt": "A galaxy on a purple hexagon background.",
+                "tags": [
+                    "Minecraft",
+                    "Modding",
+                    "IAmProudOfThisOne"
+                ]
+            },
+            {
+                "title": "Commander",
+                "description": "An extension of the data pack system. Introduces a new JSON event system, new commands, and advanced expressions.",
+                "href": "https://andromeda.melontini.me/",
+                "icon": "/images/mod_projects/commander.png",
+                "alt": "3 gears on a command block-colored background",
+                "tags": [
+                    "Minecraft",
+                    "Modding"
+                ]
+            },
+            {
+                "title": "Dark Matter",
+                "description": "A modular Minecraft library. (A bit of a mess)",
+                "href": "https://andromeda.melontini.me/",
+                "icon": "/images/mod_projects/dark-matter.png",
+                "alt": "The text \"Dark Matter\" over a background of black liquid",
+                "tags": [
+                    "Minecraft",
+                    "Modding",
+                    "Library"
+                ]
+            }
+        ]
+    }
+]

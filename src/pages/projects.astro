@@ -1,0 +1,62 @@
+---
+import GenericPage from "../layouts/GenericPage.astro";
+import ProjectData from "../data/projects.json";
+---
+
+<GenericPage title={"Projects"} description={"Things that I've made (sorry)"}>
+  <main>
+    <h1 class="text-center">Projects</h1>
+
+    <p class="text-center">
+      melontini™ PB&JLLC is proud to present the following projects that we
+      have unleashed to the public.
+    </p>
+
+    {
+      ProjectData.map(({ title, projects }) => {
+        return (
+        <h2 class="text-center">{title}</h2>
+          <div class="grid gap-2 lg:w-2/3 mx-auto mb-4">
+            {projects.map(
+              ({ title, description, href, icon, alt, tags }) => {
+                return (
+                  <div class="grid bg-elevation-1 rounded-xl p-2 overflow-hidden">
+                    <div class="flex flex-wrap">
+                        <a href={href} target="_blank" class="aspect-square no-underline">
+                        <img
+                          class="hovered w-24 h-24 bg-elevation-2 rounded-xl"
+                          alt={alt}
+                          title={alt}
+                          src={icon}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </a>
+                      <a href={href} target="_blank" class="h-fit no-underline mx-1">
+                          <h3>{title}</h3>
+                        </a>
+                    </div>
+                    <div>                   
+                        <p class="m-0 mt-2"><Fragment set:html={description}/></p>
+                      </div>
+
+                    <ul
+                      title="useless tags (TODO)"
+                      class="flex mt-2 overflow-auto"
+                    >
+                      {tags.map((tag) => (
+                        <li class="first:rounded-l-xl last:rounded-r-xl mr-1 last:mr-0 bg-elevation-2 px-2">
+                          #{tag}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              }
+            )}
+          </div>
+        );
+      })
+    }
+  </main>
+</GenericPage>
