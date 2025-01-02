@@ -1,20 +1,9 @@
 ---
 import GenericPage from "../layouts/GenericPage.astro";
-import ModCard from "../components/ModCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import { Image, Picture } from "astro:assets";
+import { Picture } from "astro:assets";
 
 import pfp from "../images/pfp-s.png";
-
-import buwos from "../images/buwos_mt.webp";
-
-const badgeFiles = import.meta.glob<{ default: ImageMetadata }>(
-  "../images/badges/*"
-);
-
-const modFiles = import.meta.glob<{ default: ImageMetadata }>(
-  "../images/mod_projects/*"
-);
 ---
 
 <GenericPage title={SITE_TITLE} description={SITE_DESCRIPTION}>
